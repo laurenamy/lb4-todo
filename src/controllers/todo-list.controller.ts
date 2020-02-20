@@ -17,13 +17,13 @@ import {
   del,
   requestBody,
 } from '@loopback/rest';
-import {TodoList} from '../models';
+import {TodoList, User} from '../models';
 import {TodoListRepository} from '../repositories';
 
 export class TodoListController {
   constructor(
     @repository(TodoListRepository)
-    public todoListRepository : TodoListRepository,
+    public todoListRepository: TodoListRepository,
   ) {}
 
   @post('/todo-lists', {
@@ -59,7 +59,8 @@ export class TodoListController {
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(TodoList)) where?: Where<TodoList>,
+    @param.query.object('where', getWhereSchemaFor(TodoList))
+    where?: Where<TodoList>,
   ): Promise<Count> {
     return this.todoListRepository.count(where);
   }
@@ -80,7 +81,8 @@ export class TodoListController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(TodoList)) filter?: Filter<TodoList>,
+    @param.query.object('filter', getFilterSchemaFor(TodoList))
+    filter?: Filter<TodoList>,
   ): Promise<TodoList[]> {
     return this.todoListRepository.find(filter);
   }
@@ -102,7 +104,8 @@ export class TodoListController {
       },
     })
     todoList: TodoList,
-    @param.query.object('where', getWhereSchemaFor(TodoList)) where?: Where<TodoList>,
+    @param.query.object('where', getWhereSchemaFor(TodoList))
+    where?: Where<TodoList>,
   ): Promise<Count> {
     return this.todoListRepository.updateAll(todoList, where);
   }
@@ -121,9 +124,28 @@ export class TodoListController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.query.object('filter', getFilterSchemaFor(TodoList)) filter?: Filter<TodoList>
+    @param.query.object('filter', getFilterSchemaFor(TodoList))
+    filter?: Filter<TodoList>,
   ): Promise<TodoList> {
     return this.todoListRepository.findById(id, filter);
+  }
+
+  @get('/todo-lists/{id}/user', {
+    responses: {
+      '200': {
+        description: 'User belonging to TodoList',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(User)},
+          },
+        },
+      },
+    },
+  })
+  async getUser(
+    @param.path.number('id') id: typeof TodoList.prototype.id,
+  ): Promise<User> {
+    return this.todoListRepository.user(id);
   }
 
   @patch('/todo-lists/{id}', {

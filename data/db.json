@@ -12,9 +12,12 @@
       "5": "{\"title\":\"get eggs\",\"isComplete\":false,\"todoListId\":3,\"id\":5}"
     },
     "TodoList": {
-      "1": "{\"title\":\"Sith lord's check list\",\"lastModified\":\"a long time ago\",\"id\":1}",
+      "1": "{\"title\":\"Sith lord's check list\",\"lastModified\":\"a long time ago\",\"id\":1,\"userId\":1}",
       "2": "{\"title\":\"My daily chores\",\"lastModified\":\"2018-07-13\",\"id\":2}",
       "3": "{\"title\":\"grocery list\",\"id\":3}"
+    },
+    "User": {
+      "1": "{\"name\":\"lauren\",\"todoListId\":1,\"id\":1}"
     }
   }
 }
